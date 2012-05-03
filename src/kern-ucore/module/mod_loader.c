@@ -245,7 +245,9 @@ static int elf_mod_parse(uintptr_t elf, const char *name, int export_symbol,
                     }
                 } else if (symtab->sym_shndx == SHN_COMMON) {
                     // TODO: implement SHN_COMMON
-                    error("not implemented\n");
+                    info("SHN_COMMON, alloc %d byte offset %d\n", symtab->sym_size, cur_common_alloc);
+                    symtab->sym_address = cur_common_alloc;
+                    cur_common_alloc += symtab->sym_size;
                 } else {
                     info("shndx[%04x]\n", symtab->sym_shndx);
                 }

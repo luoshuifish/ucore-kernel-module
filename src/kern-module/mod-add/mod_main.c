@@ -1,4 +1,5 @@
-static int test;
+int test;
+int global;
 
 int add(int a, int b, int *c) {
     *c = a + b;
@@ -10,7 +11,8 @@ void init_module() {
     register_mod_add(add);
     kprintf("[ MM ] init mod-add done\n");
     test = 1;
-    kprintf("test: %d\n", test);
+    global = 10 + test;
+    kprintf("test: %d, global: %d\n", test, global);
 }
 
 void cleanup_module() {

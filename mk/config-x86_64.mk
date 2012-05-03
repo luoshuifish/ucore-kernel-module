@@ -13,13 +13,14 @@ export TARGET_CC_FLAGS_USER		?=	-m64 -mcmodel=small
 export TARGET_LD_FLAGS			?=	-m $(shell $(TARGET_CC_PREFIX)ld -V | grep elf_x86_64 2>/dev/null) -nostdlib
 
 qemu: all
-	${QEMU} -smp 4 -m 512 \
+
+	${QEMU} -parallel stdio \
+	-smp 4 -m 512 \
 	-hda ${T_OBJ}/kernel.img \
 	-drive file=${T_OBJ}/swap.img,media=disk,cache=writeback \
 	-drive file=${T_OBJ}/sfs.img,media=disk,cache=writeback \
 	-drive file=${T_OBJ}/sfs2.img,media=disk,cache=writeback \
-	-s -S \
-	-serial file:${T_OBJ}/serial.log -monitor stdio
+	-s 
 
 debug: all
 	${V}${TARGET_CC_PREFIX}gdb -q -x gdbinit.${ARCH}
