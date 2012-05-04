@@ -1,4 +1,0 @@
-CC      := ${TARGET_CC_PREFIX}gcc ${TARGET_CC_FLAGS_COMMON} ${TARGET_CC_FLAGS_BL}
-LD		:= ${TARGET_CC_PREFIX}ld ${TARGET_LD_FLAGS}
-
-include ${T_BASE}/mk/compopt.mk
