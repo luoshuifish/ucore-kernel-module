@@ -10,7 +10,7 @@
 #include <mmu.h>
 #include <mod_loader.h>
 
-#define CHARS_MAX            10240
+#define CHARS_MAX            100000
 static uint32_t char_count;
 static char     chars[CHARS_MAX];
 
@@ -340,24 +340,36 @@ static int elf_mod_parse(uintptr_t elf, const char *name, int export_symbol,
                     error("unhandled syn_shndx\n");
                 }
                 
+
+                uint64_t val = reloc_addr + reloc->rl_addend;
+
                 switch (GET_RELOC_TYPE(reloc->rl_info)) {
-                    case 0x02:      // S + A - P
-                        reloc_addr = reloc_addr - (uintptr_t)mem_addr;
-                        //*(uintptr_t *)mem_addr = reloc_addr + *(uintptr_t *)mem_addr;
-                        *(uint32_t *)mem_addr = reloc_addr + reloc->rl_addend;
-                        info("fill rel address %08x to %08x\n", *(uint32_t *)mem_addr, mem_addr);
+                    case R_X86_64_NONE:  
                         break;
-
-                    case 0x0b:      // S + A
-                        *(uint32_t *)mem_addr = reloc_addr + reloc->rl_addend;
-                        info("fill rel address %08x to %08x\n", *(uint32_t *)mem_addr, mem_addr);
+                    case R_X86_64_64:    
+                        *(uint32_t *)mem_addr = val;
                         break;
-
+                    case R_X86_64_32:
+                        *(uint32_t *)mem_addr = val;
+                        if (val != *(uint32_t *)mem_addr)
+                            error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        break;
+                    case R_X86_64_32S: //11
+                        *(int32_t *)mem_addr = val;
+                        //if ((int64_t)val != *(int32_t *)mem_addr)
+                        //    error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        break;
+                    case R_X86_64_PC32: //2
+                        val -= (uint64_t)mem_addr;
+                        *(uint32_t *)mem_addr  = val;
+                        //if ((uint64_t)val != *(uint32_t *)mem_addr)
+                        //    error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        break;
                     default:
                         error("unsupported relocation type (%x)\n", GET_RELOC_TYPE(reloc->rl_info));
                         break;
-
                 }
+                info("fill rel address %08x to %08x\n", *(uint32_t *)mem_addr, mem_addr);
             }
         } else if (sh->sh_type == SH_TYPE_REL) {
             error("relocation SH_TYPE_REL not implemented\n");

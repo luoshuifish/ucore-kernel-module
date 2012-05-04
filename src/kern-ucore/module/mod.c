@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <assert.h>
 #include <string.h>
 #include <kio.h>
 #include <file.h>
@@ -8,9 +8,13 @@
 #include <bitsearch.h>
 #include <mmu.h>
 #include <vmm.h>
+#include <vfs.h>
+#include <inode.h>
+#include <iobuf.h>
 #include <mod_loader.h>
 #include <mod.h>
 #include <mod_manager.h>
+#include <sem.h>
 #include <error.h>
 
 #define current (pls_read(current))
@@ -18,10 +22,10 @@
 #define EXPORT(name) touch_export_sym(#name, (uintptr_t)&name, 0)
 typedef void (*voidfunc)();
 
-static unsigned char ko_pool[10240];
+static unsigned char ko_pool[100000];
 static uintptr_t ko_pool_pointer;
 
-unsigned char bss_pool[10240];
+unsigned char bss_pool[100000];
 uintptr_t bss_pool_ptr;
 
 void register_mod_add(func_add_t f) {
@@ -106,10 +110,44 @@ void mod_init() {
     info("[ II ] exporting kernel symbols\n");
 
     EXPORT(kprintf);
+    EXPORT(kfree);
+    EXPORT(kmalloc);
+    EXPORT(memcmp);
+    EXPORT(memset);
+    EXPORT(memcpy);
+    EXPORT(strlen);
+    EXPORT(strcmp);
+    EXPORT(__panic);
+    EXPORT(__warn);
+
+    EXPORT(inode_init);
+    EXPORT(inode_check);
+    EXPORT(inode_ref_inc);
+    EXPORT(inode_ref_dec);
+    EXPORT(iobuf_init);
+    EXPORT(iobuf_skip);
+    EXPORT(iobuf_move);
+    EXPORT(vfs_mount);
+    EXPORT(__alloc_fs);
+    EXPORT(__alloc_inode);
+
+    EXPORT(null_vop_pass);
+    EXPORT(null_vop_inval);
+    EXPORT(null_vop_unimp);
+    EXPORT(null_vop_isdir);
+    EXPORT(null_vop_notdir);
+
+    EXPORT(sem_init);
+    EXPORT(up);
+    EXPORT(down);
+
     EXPORT(register_mod_add);
     EXPORT(unregister_mod_add);
     EXPORT(register_mod_mul);
     EXPORT(unregister_mod_mul);
+
+    EXPORT(register_filesystem);
+    EXPORT(unregister_filesystem);
     
     // TODO: read mod dep file
    

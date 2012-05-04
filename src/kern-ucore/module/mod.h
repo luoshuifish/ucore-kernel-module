@@ -32,8 +32,8 @@ int module_func_mul(int a, int b, int *c);
 void register_mod_add(func_add_t f);
 void unregister_mod_add();
 
-void register_mod_add(func_mul_t f);
-void unregister_mod_add();
+void register_mod_mul(func_mul_t f);
+void unregister_mod_mul();
 
 int do_init_module(const char *name);
 int do_cleanup_module(const char *name);

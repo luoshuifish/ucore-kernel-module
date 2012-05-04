@@ -27,13 +27,13 @@ endif
 
 MODDIRS := $(addprefix mod-,${MODS})
 
-all: ${MODDIRS} ${T_OBJ}/kernel.img ${T_OBJ}/swap.img ${T_OBJ}/sfs.img ${T_OBJ}/sfs2.img
+all: ${MODDIRS} ${T_OBJ}/kernel.img ${T_OBJ}/swap.img ${T_OBJ}/sfs.img ${T_OBJ}/sfatfs.img
 
 mod-supervisor: mod-kern-ucore
 
 mod-kern-river: mod-supervisor
 
-mod-user-ucore: mod-ht-mksfs mod-libs-user-ucore
+mod-user-ucore: mod-ht-mksfs mod-ht-mksfatfs mod-libs-user-ucore
 
 mod-bootloader: mod-ht-sign mod-kern-${KERN} mod-supervisor 
 
@@ -60,9 +60,9 @@ ${T_OBJ}/sfs.img: ${T_OBJ}/user-sfs-timestamp
 	${V}dd if=/dev/zero of=$@ bs=1M count=256
 	${V}${T_OBJ}/tools-mksfs $@ ${T_OBJ}/user-sfs
 
-${T_OBJ}/sfs2.img: ${T_OBJ}/user-sfs-timestamp
+${T_OBJ}/sfatfs.img: ${T_OBJ}/user-sfs-timestamp
 	@echo MAKE $@
 	${V}dd if=/dev/zero of=$@ bs=1M count=256
-	mkdir ${T_OBJ}/user-sfs2
-	${V}${T_OBJ}/tools-mksfs $@ ${T_OBJ}/user-sfs2
+	mkdir ${T_OBJ}/user-sfatfs
+	${V}${T_OBJ}/tools-mksfatfs $@ ${T_OBJ}/user-sfatfs
 
