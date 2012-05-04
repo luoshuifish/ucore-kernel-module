@@ -347,23 +347,23 @@ static int elf_mod_parse(uintptr_t elf, const char *name, int export_symbol,
                     case R_X86_64_NONE:  
                         break;
                     case R_X86_64_64:    
-                        *(uint32_t *)mem_addr = val;
+                        *(uint64_t *)mem_addr = val;
                         break;
                     case R_X86_64_32:
                         *(uint32_t *)mem_addr = val;
-                        if (val != *(uint32_t *)mem_addr)
-                            error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        //if (val != *(uint32_t *)mem_addr)
+                        //    error("overflow in relocation type %d. val %lld, memaddr %d.\n", GET_RELOC_TYPE(reloc->rl_info), val, *(uint32_t *)mem_addr);
                         break;
                     case R_X86_64_32S: //11
                         *(int32_t *)mem_addr = val;
                         //if ((int64_t)val != *(int32_t *)mem_addr)
-                        //    error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        //    error("overflow in relocation type %d. val %lld, memaddr %d.\n", GET_RELOC_TYPE(reloc->rl_info), (int64_t)val, *(int32_t *)mem_addr);
                         break;
                     case R_X86_64_PC32: //2
                         val -= (uint64_t)mem_addr;
-                        *(uint32_t *)mem_addr  = val;
-                        //if ((uint64_t)val != *(uint32_t *)mem_addr)
-                        //    error("overflow in relocation type %d val %llx.\n", GET_RELOC_TYPE(reloc->rl_info), val);
+                        *(uint32_t *)mem_addr = val;
+                        //if ((int64_t)val != *(int32_t *)mem_addr)
+                        //    error("overflow in relocation type %d. val %lld, memaddr %d.\n", GET_RELOC_TYPE(reloc->rl_info), (int64_t)val, *(int32_t *)mem_addr);
                         break;
                     default:
                         error("unsupported relocation type (%x)\n", GET_RELOC_TYPE(reloc->rl_info));

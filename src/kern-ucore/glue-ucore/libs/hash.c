@@ -16,3 +16,13 @@ hash32(uint32_t val, unsigned int bits) {
     return (hash >> (32 - bits));
 }
 
+uint32_t
+hashstr(char* name) {
+	uint32_t hash = 47;
+	int i;
+	for (i = 0; i < 8 && name[i] != '\0'; ++i) {
+		hash = hash * 31 + name[i];
+	}
+	return hash;
+}
+

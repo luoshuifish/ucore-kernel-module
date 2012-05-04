@@ -11,10 +11,12 @@
 #include <vfs.h>
 #include <inode.h>
 #include <iobuf.h>
+#include <ide.h>
 #include <mod_loader.h>
 #include <mod.h>
 #include <mod_manager.h>
 #include <sem.h>
+#include <stdlib.h>
 #include <error.h>
 
 #define current (pls_read(current))
@@ -117,6 +119,9 @@ void mod_init() {
     EXPORT(memcpy);
     EXPORT(strlen);
     EXPORT(strcmp);
+    EXPORT(stricmp);
+    EXPORT(strcpy);
+    EXPORT(strchr);
     EXPORT(__panic);
     EXPORT(__warn);
 
@@ -137,6 +142,9 @@ void mod_init() {
     EXPORT(null_vop_isdir);
     EXPORT(null_vop_notdir);
 
+    EXPORT(ide_read_secs);
+    EXPORT(ide_write_secs);
+
     EXPORT(sem_init);
     EXPORT(up);
     EXPORT(down);
@@ -148,6 +156,9 @@ void mod_init() {
 
     EXPORT(register_filesystem);
     EXPORT(unregister_filesystem);
+
+    EXPORT(hash32);
+    EXPORT(hashstr);
     
     // TODO: read mod dep file
    

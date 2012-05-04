@@ -71,7 +71,7 @@ sfatfs_wbuf(struct sfatfs_fs *sfatfs, void *buf, size_t len, uint32_t blkno, off
 
 int
 sfatfs_sync_super(struct sfatfs_fs *sfatfs) {
-    int ret;
+    int ret = 0;
     lock_sfatfs_io(sfatfs);
     {
         memset(sfatfs->sfatfs_buffer, 0, SFATFS_BLKSIZE);
@@ -92,7 +92,7 @@ sfatfs_sync_freemap(struct sfatfs_fs *sfatfs) {
 
 int
 sfatfs_clear_block(struct sfatfs_fs *sfatfs, uint32_t blkno, uint32_t nblks) {
-    int ret;
+    int ret = 0;
     lock_sfatfs_io(sfatfs);
     {
         memset(sfatfs->sfatfs_buffer, 0, SFATFS_BLKSIZE);

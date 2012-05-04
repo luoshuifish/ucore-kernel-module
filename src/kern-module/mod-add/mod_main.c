@@ -1,3 +1,6 @@
+#include <kio.h>
+#include <mod.h>
+
 int test;
 int global;
 

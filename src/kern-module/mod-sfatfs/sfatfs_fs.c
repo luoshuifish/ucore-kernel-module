@@ -12,6 +12,7 @@
 #include <bitmap.h>
 #include <error.h>
 #include <assert.h>
+#include <kio.h>
 
 /*
  * Write Block 0 & 1 back to IDE if it's dirty

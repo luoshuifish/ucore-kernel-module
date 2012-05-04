@@ -6,6 +6,7 @@
 #include <pipe.h>
 #include <sfs.h>
 #include <sfatfs.h>
+#include <ffs.h>
 #include <list.h>
 
 struct inode;   // abstract structure for an on-disk file (inode.h)
@@ -40,11 +41,13 @@ struct fs {
         struct pipe_fs __pipe_info;
         struct sfs_fs __sfs_info;
         struct sfatfs_fs __sfatfs_info;
+        struct ffs_fs __ffs_info;
     } fs_info;
     enum {
         fs_type_pipe_info = 0x5678,
         fs_type_sfs_info,
         fs_type_sfatfs_info,
+        fs_type_ffs_info,
     } fs_type;
     int (*fs_sync)(struct fs *fs);
     struct inode *(*fs_get_root)(struct fs *fs);

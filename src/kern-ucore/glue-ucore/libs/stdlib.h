@@ -12,6 +12,7 @@ void srand(unsigned int seed);
 
 /* libs/hash.c */
 uint32_t hash32(uint32_t val, unsigned int bits);
+uint32_t hashstr(char* name);
 
 #endif /* !__LIBS_RAND_H__ */
 

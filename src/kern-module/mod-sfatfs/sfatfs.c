@@ -3,6 +3,8 @@
 #include <error.h>
 #include <assert.h>
 #include <mod.h>
+#include <vfs.h>
+#include <kio.h>
 
 /*
 void
