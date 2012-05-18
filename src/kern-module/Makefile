@@ -12,7 +12,7 @@ INC := arch/${ARCH}/glue-ucore arch/${ARCH}/driver arch/${ARCH}/debug arch/${ARC
 	fs/swap fs/vfs fs/pipe fs/sfs fs/devs module glue-ucore/libs/x86
 
 C_FLAGS := $(addprefix -I../kern-ucore/, ${INC})
-C_FLAGS += -Imod-sfatfs -Imod-fatfs -I../glue-kern/arch/${ARCH} -mcmodel=kernel -Wall -Werror -O2
+C_FLAGS += -Imod-sfatfs -Imod-fatfs -I../glue-kern/arch/${ARCH} -Wall -Werror -O2
 
 all: ${T_OBJ}/user-sfs/kern-module ${OBJFILES}
 
