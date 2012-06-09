@@ -340,7 +340,6 @@ static int elf_mod_parse(uintptr_t elf, const char *name, int export_symbol,
                     error("unhandled syn_shndx\n");
                 }
                 
-
                 uint64_t val = reloc_addr + reloc->rl_addend;
 
                 switch (GET_RELOC_TYPE(reloc->rl_info)) {

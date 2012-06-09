@@ -20,6 +20,7 @@ qemu: all
 	-drive file=${T_OBJ}/swap.img,media=disk,cache=writeback \
 	-drive file=${T_OBJ}/sfs.img,media=disk,cache=writeback \
 	-drive file=${T_OBJ}/sfatfs.img,media=disk,cache=writeback \
+	-drive file=${T_OBJ}/sfs2.img,media=disk,cache=writeback \
 	-s 
 
 debug: all

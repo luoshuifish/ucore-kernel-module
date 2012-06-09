@@ -24,10 +24,10 @@
 #define EXPORT(name) touch_export_sym(#name, (uintptr_t)&name, 0)
 typedef void (*voidfunc)();
 
-static unsigned char ko_pool[100000];
+static unsigned char ko_pool[1000000];
 static uintptr_t ko_pool_pointer;
 
-unsigned char bss_pool[100000];
+unsigned char bss_pool[1000000];
 uintptr_t bss_pool_ptr;
 
 void register_mod_add(func_add_t f) {

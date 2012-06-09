@@ -27,7 +27,7 @@ endif
 
 MODDIRS := $(addprefix mod-,${MODS})
 
-all: ${MODDIRS} ${T_OBJ}/kernel.img ${T_OBJ}/swap.img ${T_OBJ}/sfs.img ${T_OBJ}/sfatfs.img ${T_OBJ}/fatfs.img
+all: ${MODDIRS} ${T_OBJ}/kernel.img ${T_OBJ}/swap.img ${T_OBJ}/sfs.img ${T_OBJ}/sfatfs.img ${T_OBJ}/sfs2.img
 
 mod-supervisor: mod-kern-ucore
 
@@ -65,8 +65,9 @@ ${T_OBJ}/sfatfs.img: ${T_OBJ}/user-sfs-timestamp
 	${V}dd if=/dev/zero of=$@ bs=1M count=8
 	mkdir ${T_OBJ}/user-sfatfs
 	echo test > ${T_OBJ}/user-sfatfs/testfile
+	echo test > ${T_OBJ}/user-sfatfs/filetest
 	${V}${T_OBJ}/tools-mksfatfs $@ ${T_OBJ}/user-sfatfs
 
-${T_OBJ}/fatfs.img: ${T_OBJ}/user-sfs-timestamp
-	cp ${T_OBJ}/../backup/fat.img $@
+${T_OBJ}/sfs2.img: ${T_OBJ}/sfs.img
+	cp ${T_OBJ}/sfs.img $@
 
